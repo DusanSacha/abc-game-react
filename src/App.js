@@ -1,103 +1,70 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './mrs_chicken_logo.png';
-import home from './mrs_chicken_home.png';
-import home_final from './mrs_chicken_home_final.png';
-import peep from './peep.wav';
-import final from './happy_birthday_song.wav';
+import peep from './assets/peep.wav';
+import peep_final from './assets/happy_birthday_song.wav';
+import House from './House';
+import LetterBox from './LetterBox';
+import Chicken from './Chicken';
+import {
+  GAME_OVER,
+  GAME_STARTED
+} from './lib/game-state';
 
 class App extends Component {
 
   constructor(props){
     super(props);
 
-     this.characters = 'ABCDEFKLMNOPRSTUVZ';
-     this.key = this.characters[this.getRandomInt(0,this.characters.length)]
+    this.letters = 'ABCDEFKLMNOPRSTUVZ';
+    this.getRandomLetter = () => this.letters[Math.floor(Math.random() * this.letters.length)];
+    this.sound = new Audio(peep);
 
-     this.state = { 
-      characters: this.characters,
-      key: this.key,
-      score: 0,
-      jump: 0,
+    this.state = {
+      gameState: GAME_STARTED,
+      step: 0,
+      letter: this.getRandomLetter()
     }
   }
 
-  getRandomInt = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+  componentDidMount(){
+    document.addEventListener("keydown", this.keyDownListener, false);
   }
 
-   componentDidMount(){
-     document.addEventListener("keydown", this.keyDownListener, false);
-   }
 
-  keyDownListener = keyPressed => {
-    console.log(keyPressed);
-    if (keyPressed.key.toUpperCase() === this.state.key) {
-      this.setState((state, props) => {
-        return {
-          key: this.characters[this.getRandomInt(0,this.characters.length)],
-          jump: state.jump + 100,
-          score: state.score + 1
-        }
-      })
-     
-      this.audio = new Audio(peep);
-      this.audio.load();
-      const aud = this.audio.play();
- 
-       aud.then( _ => {
- 
-       }
-       ).catch(
-         err => {console.log(err)}
-       );      
+  keyDownListener = (keyPressed) => {
+    if (keyPressed.key.toUpperCase() === this.state.letter) {
+      
 
+      if (this.state.step === 11) {
+        this.sound = new Audio(peep_final);
+        this.setState({
+          gameState: GAME_OVER
+        })
+      } else {
+        this.setState((prevState) => ({
+          step: prevState.step + 1,
+          letter: this.letters[Math.floor(Math.random() * this.letters.length)]
+        }));
 
+      }
+
+      this.sound.load();
+      this.sound.play().then( _ => {
+      }
+      ).catch( err => {console.log(err)} );  
     }
-    
   }
-
+  
   render(){
-    let inputStyle = {marginRight:this.state.jump+'px'}
-    
-    let displayNone = {};
-    let chickenHouse = home;
-    if (this.state.score >= 12) {
-      chickenHouse = home_final
-      displayNone = {display:'none'};
-      inputStyle = {...inputStyle, display:'none'}
-
-      this.audio = new Audio(final);
-      this.audio.load();
-      const aud = this.audio.play();
- 
-       aud.then( () => {
- 
-       }
-       ).catch(
-         err => {console.log(err)}
-       ); 
-
-    }
-    
-
-
-    return <div className="App">
-      {/*<h1>Score:{this.state.score}</h1>*/}
-      <div className="board">
-        <img src={chickenHouse} className="home" alt="home"/>
-        <img style={inputStyle} src={logo} className="App-logo chicken" alt="chicken"/>
-      </div>      
-      <div>
-        
-      </div>
-      <h1 style={displayNone}>{this.state.key}</h1>
-      </div>
+    return (<div className="App">
+    <House gameState={this.state.gameState} />
+    <Chicken step={this.state.step} gameState={this.state.gameState}/>
+    <LetterBox letter={this.state.letter} gameState={this.state.gameState}/>
+  </div>);
   }
-
 }
 
-
 export default App;
+
+
+
