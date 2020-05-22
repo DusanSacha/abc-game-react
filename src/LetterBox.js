@@ -1,15 +1,21 @@
 import React from 'react';
-import './LetterBox.css';
 import {
     GAME_OVER,
 } from './lib/game-state';
+import styled from 'styled-components'
 
+const StyledLetterBox = styled.div`
+    clear: both;
+    font-size: 3em;
+    display: ${props => props.gameState === GAME_OVER ? 'none' : null }
+`
 
 const LetterBox = ({letter, gameState}) => {
-    let className = gameState === GAME_OVER ? 'hidden' : null;
-    return( <div className="LetterBox">
-        <h1 className={className}>{letter}</h1>
-        </div>);
+    return (
+        <StyledLetterBox gameState={gameState}>
+            <h1>{letter}</h1>
+        </StyledLetterBox>
+    );
 }
 
 export default LetterBox;

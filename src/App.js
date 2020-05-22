@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+//import './App.css';
 import peep from './assets/peep.wav';
 import peep_final from './assets/happy_birthday_song.wav';
 import House from './House';
@@ -9,6 +9,11 @@ import {
   GAME_OVER,
   GAME_STARTED
 } from './lib/game-state';
+import styled from 'styled-components'
+
+const StyledApp = styled.div`
+  text-align:center;
+`
 
 class App extends Component {
 
@@ -56,11 +61,13 @@ class App extends Component {
   }
   
   render(){
-    return (<div className="App">
-    <House gameState={this.state.gameState} />
-    <Chicken step={this.state.step} gameState={this.state.gameState}/>
-    <LetterBox letter={this.state.letter} gameState={this.state.gameState}/>
-  </div>);
+    return (
+      <StyledApp>
+        <House gameState={this.state.gameState} />
+        <Chicken step={this.state.step} gameState={this.state.gameState}/>
+        <LetterBox letter={this.state.letter} gameState={this.state.gameState}/>
+      </StyledApp>
+    );
   }
 }
 
