@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 //import './App.css';
-import peep from './assets/peep.wav';
-import peep_final from './assets/happy_birthday_song.wav';
-import House from './House';
-import LetterBox from './LetterBox';
-import Chicken from './Chicken';
+import peep from '../assets/peep.wav';
+import peep_final from '../assets/happy_birthday_song.wav';
+import House from '../components/House';
+import LetterBox from '../components/LetterBox';
+import Chicken from '../components/Chicken';
 import {
   GAME_OVER,
   GAME_STARTED
-} from './lib/game-state';
+} from '../lib/game-state';
 import styled from 'styled-components'
 
 const StyledApp = styled.div`

@@ -1,8 +1,8 @@
 import React from 'react';
-import chicken_image from './assets/mrs_chicken_logo.png';
+import chicken_image from '../assets/mrs_chicken_logo.png';
 import {
     GAME_OVER,
-} from './lib/game-state';
+} from '../lib/game-state';
 import styled from 'styled-components'
 
 const StyledChicken = styled.img`

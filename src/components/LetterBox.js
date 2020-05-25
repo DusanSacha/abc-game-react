@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     GAME_OVER,
-} from './lib/game-state';
+} from '../lib/game-state';
 import styled from 'styled-components'
 
 const StyledLetterBox = styled.div`
